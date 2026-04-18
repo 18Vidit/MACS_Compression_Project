@@ -28,7 +28,7 @@ export async function processDecompression(originalFile, compressedObj) {
 }
 
 
-// 🔷 Routing Layer
+// Routing Layer
 async function decompressFile(fileObj) {
   const { file, type } = fileObj;
 
@@ -63,7 +63,7 @@ async function decompressFile(fileObj) {
 }
 
 
-// 🔷 Temporary Dummy Functions (Replace later)
+// Temporary Dummy Functions (Replace later)
 async function decompressText(file) {
   return file;
 }

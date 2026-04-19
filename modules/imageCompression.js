@@ -13,7 +13,7 @@ function calculateRebuildMetrics(originalData, decompressedData, width, height) 
  
     for (let i = 0; i < totalPixels; i++) {
         const op = i * 4; // RGBA stride — original canvas data
-        const dp = i * 4; // RGB stride  — jpeg.decode output
+        const dp = i * 3; // RGB stride  — jpeg.decode output
  
         const rDiff = originalData[op    ] - decompressedData[dp    ];
         const gDiff = originalData[op + 1] - decompressedData[dp + 1];
@@ -103,7 +103,7 @@ export async function compressJPEG(file, quality = 75, options = {}) {
                 };
  
                 const encodeOptions = {
-                    quality,
+                    quality: q,
                     progressive,
                     chromaSubsampling,
                 };

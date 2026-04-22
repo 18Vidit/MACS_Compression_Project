@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shrinkr</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container glass-panel">
+        <header>
+            <h1>Shrinkr</h1>
+            <p class="subtitle">Efficient File Compression</p>
+        </header>
+
+        <main>
+            <div id="error-message" class="error-banner hidden"></div>
+
+            <section class="upload-section glass-panel">
+                <label for="file-upload" class="upload-label">
+                    <span class="upload-icon">📂</span>
+                    <span id="file-name-display">Choose a file to compress</span>
+                </label>
+                <input type="file" id="file-upload" accept=".txt,.csv,.png,.jpg,.jpeg,.gif,.mp3,.wav,.mp4">
+                
+                <button id="compress-btn" class="primary-btn" disabled>Compress File</button>
+            </section>
+
+            <section id="progress-section" class="hidden">
+                <div class="loader"></div>
+                <p id="progress-text">Compressing...</p>
+            </section>
+
+            <section id="results-section" class="results-section glass-panel hidden">
+                <h3>Compression Results</h3>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="label">Original Size</span>
+                        <span class="value" id="res-original">0 KB</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Compressed Size</span>
+                        <span class="value" id="res-compressed">0 KB</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Ratio</span>
+                        <span class="value" id="res-ratio">1:1</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Savings</span>
+                        <span class="value highlight-green" id="res-savings">0%</span>
+                    </div>
+                </div>
+                <button id="download-btn" class="primary-btn mt-10">Download Compressed File</button>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="verify-section glass-panel">
+                <h3>Decompress & Verify</h3>
+                <p class="hint-text">Upload your compressed file to test decompression and verify metrics.</p>
+                <label for="verify-upload" class="upload-label secondary-upload">
+                    <span class="upload-icon">🔍</span>
+                    <span id="verify-name-display">Select compressed file</span>
+                </label>
+                <input type="file" id="verify-upload">
+                <button id="verify-btn" class="secondary-btn mt-10" disabled>Decompress & Verify</button>
+                
+                <div id="verify-results" class="verify-results hidden mt-10">
+                    <p id="verify-message"></p>
+                    <p id="verify-metric" class="metric-text"></p>
+                    <button id="download-decompressed-btn" class="secondary-btn mt-10 hidden">Download Decompressed File</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- External Libraries (bundled) -->
+    <script src="lib/fflate.min.js"></script>
+    <script src="lib/pako.min.js"></script>
+    <script src="lib/UPNG.js"></script>
+    <script src="lib/lame.min.js"></script>
+    
+    <!-- Main Logic -->
+    <script type="module" src="popup.js"></script>
+</body>
+</html>

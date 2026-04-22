@@ -1,52 +1,43 @@
-function validateFile(file, typeCheckFn = null, typeErrorMsg = "Invalid file type") {
-  if (!file || file.size === 0) {
-    throw new Error("File is empty or missing.");
-  }
-
-  const MAX_SIZE = 50 * 1024 * 1024; // 50 MB
-  if (file.size > MAX_SIZE) {
-    throw new Error("File exceeds the 50 MB size limit.");
-  }
-
-  if (typeCheckFn && !typeCheckFn(file)) {
-    throw new Error(typeErrorMsg);
-  }
-}
-
-function buildResult(originalFile, compressedBlob, algorithm) {
-  const originalSize = originalFile.size;
-  const compressedSize = compressedBlob.size;
-
-  return {
-    compressedBlob,
-    originalSize,
-    compressedSize,
-    algorithm,
-    noGain: compressedSize >= originalSize,
-  };
-}
-
+// This module handles compressing text and csv files using GZIP (fflate library)
 export async function compressText(file) {
-  validateFile(
-    file,
-    (f) =>
-      f.name.endsWith(".txt") ||
-      f.name.endsWith(".csv") ||
-      f.type === "text/plain" ||
-      f.type === "text/csv",
-    "Only .txt and .csv files are supported for text compression."
-  );
+    // First, make sure the file is actually a text or csv file
+    const isValidType = file.name.endsWith(".txt") || file.name.endsWith(".csv") || file.type === "text/plain" || file.type === "text/csv";
+    
+    if (!file || !isValidType) {
+        throw new Error("Only .txt and .csv files are supported for text compression.");
+    }
 
-  const arrayBuffer = await file.arrayBuffer();
-  const u8Input = new Uint8Array(arrayBuffer);
+    const originalSize = file.size;
 
-  const compressedU8 = await new Promise((resolve, reject) => {
-    fflate.gzip(u8Input, { level: 9 }, (err, data) => {
-      if (err) reject(new Error("fflate compression failed: " + err.message));
-      else resolve(data);
+    // We read the file content into an array buffer to compress it byte by byte
+    const arrayBuffer = await file.arrayBuffer();
+    const inputData = new Uint8Array(arrayBuffer);
+
+    // Compress the data using fflate's gzip with maximum compression level (9)
+    const compressedData = await new Promise((resolve, reject) => {
+        fflate.gzip(inputData, { level: 9 }, (error, data) => {
+            if (error) {
+                reject(new Error("Compression failed: " + error.message));
+            } else {
+                resolve(data);
+            }
+        });
     });
-  });
 
-  const compressedBlob = new Blob([compressedU8], { type: "application/gzip" });
-  return buildResult(file, compressedBlob, "GZIP (fflate, level 9)");
+    // Create a new file blob from the compressed data
+    const compressedBlob = new Blob([compressedData], { type: "application/gzip" });
+    const compressedSize = compressedBlob.size;
+
+    // Calculate how much space we saved
+    const ratio = (originalSize / compressedSize).toFixed(2);
+    const savings = (((originalSize - compressedSize) / originalSize) * 100).toFixed(2);
+
+    return {
+        file: compressedBlob,
+        originalSize: originalSize,
+        compressedSize: compressedSize,
+        ratio: ratio + ":1",
+        savings: savings + "%",
+        type: "lossless"
+    };
 }

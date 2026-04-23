@@ -114,7 +114,7 @@ compressBtn.addEventListener('click', async () => {
         compressBtn.disabled = false;
 
     } catch (err) {
-        console.error(err);
+
         showError(err.message || "An error occurred during compression.");
         compressBtn.disabled = false;
     }
@@ -210,7 +210,7 @@ verifyBtn.addEventListener('click', async () => {
         }
 
     } catch (err) {
-        console.error(err);
+
         showError(err.message || "Verification failed.");
         verifyBtn.disabled = false;
         progressSection.classList.add('hidden');

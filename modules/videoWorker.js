@@ -95,14 +95,7 @@ onmessage = async function (e) {
         // Write the raw bytes into FFmpeg's virtual in-memory file system
         ffmpeg.FS('writeFile', inputName, new Uint8Array(arrayBuffer));
  
-        // Hook into FFmpeg's progress event for real-time UI feedback
-        // ffmpeg.setProgress(({ ratio }) => {
-        //     const percent = Math.round(ratio * 100);
-        //     // Guard against the occasional negative value emitted during initialisation
-        //     if (percent >= 0 && percent <= 100) {
-        //         postMessage({ status: 'progress', message: `Compressing: ${percent}%` });
-        //     }
-        // });
+
  
         // Run the compression:
         //   -threads 1        Force single thread to avoid SharedArrayBuffer hangs in Chrome Extensions

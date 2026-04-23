@@ -1,17 +1,17 @@
 # Shrinkr 🗜️
-![Status Badge](https://img.shields.io/badge/Status-Submitted%20%E2%80%94%20MACS%20JC%20Project-success)
+![Status Badge](https://img.shields.io/badge/Status-Submitted%20%E2%80%94%20MACS%20JC%20Project%202-success)
 
 ## Overview
-Shrinkr is a Chrome Extension designed to compress text, images, audio, and video files directly in the browser. It supports `.txt`, `.csv`, `.png`, `.jpg`, `.jpeg`,    `.mp3`, `.wav` and `.mp4` formats. The extension utilizes local, browser-based compression to ensure privacy and fast processing, leveraging native Canvas APIs and WebAssembly (FFmpeg) to achieve a balance between file size reduction and quality.
+Shrinkr is a Chrome Extension designed to compress text, images, audio, and video files directly in the browser. It supports `.txt`, `.csv`, `.png`, `.jpg`, `.jpeg`,`.mp3`, `.wav` and `.mp4` formats. The extension utilizes local, browser-based compression to ensure privacy and fast processing, leveraging native Canvas APIs and WebAssembly (FFmpeg) to achieve a balance between file size reduction and quality.(for mr. president- go check the .mp3 and .txt files in the sample files folder, hehehhehe)
 
 ## Team Name: **Aaahm Aaahdmi Party**
 
 ## Team Members:
 
 | Name                  | Role / Contribution                        | Contribution % |
-| --------------------- | ------------------------------------------ |  ------------- |
+| :-------------------- | :----------------------------------------- | :------------- |
 | **Vidit Arora**       | Integration, Testing, Documentation and UI | 16.67% |
-| **Kartik Sisodia**    | Decompression                              | 16.67% |
+| **Kartik Sisodia**    | Decompression and Validation               | 16.67% |
 | **Sumit Singh**       | Lossless Compression                       | 16.67% |
 | **Shivam Sinha**      | Lossless Compression                       | 16.67% |
 | **Hussain**           | Lossy Compression                          | 16.67% |
@@ -20,7 +20,7 @@ Shrinkr is a Chrome Extension designed to compress text, images, audio, and vide
 ## Features
 *   **Multi-format Support:** Compress text (`.txt`, `.csv`), images (`.png`, `.jpg`, `.jpeg`), audio (`.mp3`), and video (`.mp4`).
 *   **Lossless & Lossy Compression:** GZIP for text, UPNG/Canvas for images, MP3 encoding, and H.264 video compression.
-*   **Real-time Metrics:** Displays Original Size, Compressed Size, Compression Ratio, and Space Savings Percentage upon completion.
+*   **Real Time Metrics:** Displays Original Size, Compressed Size, Compression Ratio, and Space Savings Percentage upon completion.
 *   **Rebuild & Hash Verification:** Allows decompression testing. For lossless files, it verifies the rebuild against the original using a SHA-256 hash.
 *   **Quality Assessment:** Calculates Peak Signal-to-Noise Ratio (PSNR) for lossy image compression to track quality loss.
 *   **Graceful Error Handling:** Invalid file types and processing errors are caught and shown cleanly in the UI.
@@ -30,43 +30,39 @@ To test and install the `.crx` file (or unpacked extension) in Chrome:
 
 1. Open Google Chrome and navigate to `chrome://extensions`.
 2. Toggle the **Developer Mode** switch in the top-right corner to **ON**.
-3. *Option A (Direct CRX):* Download the `Shrinkr.crx` file from this repository and drag it into the `chrome://extensions` page.
+3. *Option A (Direct .crx):* Download the `Shrinkr.crx` file from this repository and drag it directly onto the `chrome://extensions` page.
 4. *Option B (Load Unpacked):* Click **Load unpacked** and select the folder containing the `manifest.json` file.
 5. Pin the extension to your toolbar for quick access.
 
 ## How to Use
-1. Click the MACS Compressor icon in the Chrome toolbar to open the extension popup.
+1. Click the Shrinkr icon in the Chrome toolbar to open the extension popup.
 2. Click **Choose a file to compress** and select a supported file.
 3. Click the **Compress File** button and wait for the process to finish.
 4. Review the size reduction metrics displayed.
 5. Click **Download Compressed File** to save it.
 6. To verify the file, select the downloaded compressed file under the **Decompress & Verify** section and click the verify button.
 
-### Application Previews
+## Screenshots:
 ![Compression UI](assets/ui-compression.png)
-
-![Verification UI](assets/ui-verify.png)
+![Decompression UI](assets/ui-verify.png)
 
 ## Compression Results
-*(Test these with real files and fill out the table below. Here is an example structure)*
 
 | File Type | File Name | Original Size | Compressed Size | Compression Ratio | Space Savings (%) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Text | `sample.txt` | 150 KB | 45 KB | 3.33:1 | 70.00% |
-| Image (JPEG) | `photo.jpg` | 2.5 MB | 850 KB | 2.94:1 | 66.00% |
-| Audio (MP3) | `song.wav` | 30 MB | 3 MB | 10.00:1 | 90.00% |
-| Video (MP4) | `clip.mp4` | 50 MB | 25 MB | 2.00:1 | 50.00% |
+| Text | `100_item.csv` | 1.55 KB | 540 Bytes | 2.94:1 | 66.04% |
+| Text | `For_Mr_Hitesh_Mehta_Ji.txt` | 86.08 KB | 1.09 KB | 78.84:1 | 98.73% |
+| Image (JPEG) | `isspiderman.jpeg` | 616.87 KB | 114.87 KB |5.37:1 | 81.38% |
+| Image (PNG) | `structure_chart.png` | 7 MB | 5.6 MB | 1.25:1 | 20.02% |
+| Audio (MP3) | `Shoot Vol 1.mp3` | 10.87 MB | 3.25 MB | 3.34:1 | 70.09% |
+| Video (MP4) | `prithvi.mp4` | 1.5 MB | 1.02 MB | 1.47:1 | 31.93% |
 
-*(Note: Replace the example numbers with your actual test results!)*
 
 ## Rebuild Verification
 The extension includes a verification tool that checks if the compressed file can be successfully rebuilt. 
 
 *   **Lossless (Text):** We use a SHA-256 Web Crypto API hash comparison. If the decompressed file matches the original byte-for-byte, the UI displays a green "Perfect Match" indicator.
 *   **Lossy (Image/Audio/Video):** Because data is permanently discarded, byte-for-byte equality is impossible. The UI will calculate the PSNR (for images) or display the applied settings (like 96kbps audio or CRF 28 video).
-
-> **Screenshot Placeholder:**
-> *[Please insert a screenshot showing a successful SHA-256 hash "Perfect Match" here.]*
 
 ## Algorithm Explanation
 *   **Text (GZIP):** We utilize the `fflate` library for fast GZIP compression. Text contains highly redundant characters, making dictionary-based algorithms extremely effective.

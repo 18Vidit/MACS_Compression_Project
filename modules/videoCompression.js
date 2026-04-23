@@ -8,7 +8,17 @@ export async function compressVideo(file, onProgress) {
     const originalSize = file.size;
     const arrayBuffer = await file.arrayBuffer();
 
+    // Generate absolute URLs for the FFmpeg core and wasm files
+    const coreUrl = chrome.runtime.getURL("lib/ffmpeg-core.js");
+    const wasmUrl = chrome.runtime.getURL("lib/ffmpeg-core.wasm");
+
+    // CRITICAL FIX: Fetch resources in the main thread to bypass the Chromium Web Worker `fetch` bug
+    // where fetch('chrome-extension://...') fails inside workers.
+    const coreText = await (await fetch(coreUrl)).text();
+    const wasmBuffer = await (await fetch(wasmUrl)).arrayBuffer();
+
     return new Promise((resolve, reject) => {
+
         // Create a new web worker from our worker script
         const worker = new Worker("modules/videoWorker.js");
 
@@ -59,12 +69,16 @@ export async function compressVideo(file, onProgress) {
         const crfValue = "28";
 
         // Send the file data to the worker to start the process
-        // We transfer the arrayBuffer to avoid duplicating it in memory
+        // We transfer the arrayBuffers to avoid duplicating them in memory
         worker.postMessage({
             type: "START_COMPRESSION",
             arrayBuffer: arrayBuffer,
             crf: crfValue,
-            filename: file.name
-        }, [arrayBuffer]);
+            filename: file.name,
+            coreUrl: coreUrl,
+            wasmUrl: wasmUrl,
+            coreText: coreText,
+            wasmBuffer: wasmBuffer
+        }, [arrayBuffer, wasmBuffer]);
     });
 }

@@ -4,6 +4,8 @@
 ## Overview
 Shrinkr is a Chrome Extension designed to compress text, images, audio, and video files directly in the browser. It supports `.txt`, `.csv`, `.png`, `.jpg`, `.jpeg`,    `.mp3`, `.wav` and `.mp4` formats. The extension utilizes local, browser-based compression to ensure privacy and fast processing, leveraging native Canvas APIs and WebAssembly (FFmpeg) to achieve a balance between file size reduction and quality.
 
+## Team Name: **Aaahm Aaahdmi Party**
+
 ## Team Members:
 
 | Name                  | Role / Contribution                        | Contribution % |
@@ -28,8 +30,8 @@ To test and install the `.crx` file (or unpacked extension) in Chrome:
 
 1. Open Google Chrome and navigate to `chrome://extensions`.
 2. Toggle the **Developer Mode** switch in the top-right corner to **ON**.
-3. *Option A (Unpacked):* Click **Load unpacked** and select the folder containing the `manifest.json` file.
-4. *Option B (.crx file):* Simply drag and drop the `.crx` file directly into the extensions page.
+3. *Option A (Direct CRX):* Download the `Shrinkr.crx` file from this repository and drag it into the `chrome://extensions` page.
+4. *Option B (Load Unpacked):* Click **Load unpacked** and select the folder containing the `manifest.json` file.
 5. Pin the extension to your toolbar for quick access.
 
 ## How to Use
@@ -40,10 +42,10 @@ To test and install the `.crx` file (or unpacked extension) in Chrome:
 5. Click **Download Compressed File** to save it.
 6. To verify the file, select the downloaded compressed file under the **Decompress & Verify** section and click the verify button.
 
-> **Screenshot Placeholder:**
-> *[Please insert a screenshot of the UI showing the compression of a file here. E.g. `![Compression UI](assets/ui-compression.png)`]*
->
-> *[Please insert a screenshot of the UI showing the decompression/verification process here. E.g. `![Decompression UI](assets/ui-verify.png)`]*
+### Application Previews
+![Compression UI](assets/ui-compression.png)
+
+![Verification UI](assets/ui-verify.png)
 
 ## Compression Results
 *(Test these with real files and fill out the table below. Here is an example structure)*

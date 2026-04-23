@@ -1,5 +1,5 @@
 # Shrinkr 🗜️
-![Status Badge](https://img.shields.io/badge/Status-Submitted%20%E2%80%94%20MACS%20JC%20Project%202-success)
+![Status Badge](https://img.shields.io/badge/Status-Submitted%20%E2%80%94%20MACS%20JC%20Project-success)
 
 ## Overview
 Shrinkr is a Chrome Extension designed to compress text, images, audio, and video files directly in the browser. It supports `.txt`, `.csv`, `.png`, `.jpg`, `.jpeg`,    `.mp3`, `.wav` and `.mp4` formats. The extension utilizes local, browser-based compression to ensure privacy and fast processing, leveraging native Canvas APIs and WebAssembly (FFmpeg) to achieve a balance between file size reduction and quality.
